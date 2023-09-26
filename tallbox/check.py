@@ -46,7 +46,7 @@ gamma = 5./3.  ## note: this has to be consistent with the parameter settings fo
 DeltaMaxAllowed = 0.25
 
 """ loop over all output files """
-i_file = 6
+i_file = 0
 while True:
     """ try to read in snapshot """
     directory = simulation_directory+"/snaps/"
