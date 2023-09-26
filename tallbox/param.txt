@@ -1,0 +1,113 @@
+%% param_Noh_3d.txt
+% parameter file for 3d Noh problem
+
+InitCondFile                          ./IC
+ICFormat                              3
+
+OutputDir                             ./snaps/
+SnapshotFileBase                      snap
+SnapFormat                            3
+NumFilesPerSnapshot                   1
+NumFilesWrittenInParallel             1
+
+ResubmitOn                            0
+ResubmitCommand                       my-scriptfile
+OutputListFilename                    ol
+OutputListOn                          0
+
+CoolingOn                             1
+StarformationOn                       1
+
+Omega0                                0.0
+OmegaBaryon                           0.0
+OmegaLambda                           0.0
+HubbleParam                           1.0
+
+BoxSize                               1.0
+PeriodicBoundariesOn                  0
+ComovingIntegrationOn                 0
+
+MaxMemSize                            2500
+
+TimeOfFirstSnapshot                   0.0
+CpuTimeBetRestartFile                 9000
+TimeLimitCPU                          90000
+
+TimeBetStatistics                     0.005
+TimeBegin                             0.0
+TimeMax                               10.0
+TimeBetSnapshot                       0.5
+
+UnitVelocity_in_cm_per_s              9.785e7
+UnitLength_in_cm                      3.086e21
+UnitMass_in_g                         1.989e33
+GravityConstantInternal               0.0
+
+ErrTolIntAccuracy                     0.1
+ErrTolTheta                           0.1
+ErrTolForceAcc                        0.1
+
+MaxSizeTimestep                       0.5
+MinSizeTimestep                       1e-5
+CourantFac                            0.3
+
+LimitUBelowThisDensity                0.0
+LimitUBelowCertainDensityToThisValue  0.0
+DesNumNgb                             64
+MaxNumNgbDeviation                    2
+
+MultipleDomains                       2
+TopNodeFactor                         4
+ActivePartFracForNewDomainDecomp      0.1
+
+TypeOfTimestepCriterion               0
+TypeOfOpeningCriterion                1
+GasSoftFactor                         0.01
+
+SofteningComovingType0                0.1
+SofteningComovingType1                0.1
+SofteningComovingType2                0.1
+SofteningComovingType3                0.1
+SofteningComovingType4                0.1
+SofteningComovingType5                0.1
+
+SofteningMaxPhysType0                 0.1
+SofteningMaxPhysType1                 0.1
+SofteningMaxPhysType2                 0.1
+SofteningMaxPhysType3                 0.1
+SofteningMaxPhysType4                 0.1
+SofteningMaxPhysType5                 0.1
+
+SofteningTypeOfPartType0              0
+SofteningTypeOfPartType1              1
+SofteningTypeOfPartType2              1
+SofteningTypeOfPartType3              1
+SofteningTypeOfPartType4              1
+SofteningTypeOfPartType5              1
+
+InitGasTemp                           8000.0
+MinGasTemp                            0.0
+MinEgySpec                            0.0
+MinimumDensityOnStartUp               0.0
+
+CellShapingSpeed                      0.5
+CellMaxAngleFactor                    2.25 
+
+
+TreecoolFile   ../data/TREECOOL_ep
+
+ReferenceGasPartMass     1000.
+TargetGasMassFactor      1.0
+RefinementCriterion      1
+DerefinementCriterion     1
+
+CritPhysDensity                         0       % critical physical density for star formation (in cm^(-3))
+MaxSfrTimescale                         2.27    % in internal time units
+CritOverDensity                         57.7    % overdensity threshold value
+TempSupernova                           5.73e7  % in Kelvin
+TempClouds                              1000.0  % in Kelvin
+FactorEVP                               573.0
+TemperatureThresh                       1e+06
+FactorSN                                0.1
+
+
