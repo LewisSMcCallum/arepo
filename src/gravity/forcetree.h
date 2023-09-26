@@ -89,9 +89,9 @@ typedef struct
 
 #define EN 64
 
-#define ENX (DBX * STRETCHX * EN)
-#define ENY (DBY * STRETCHY * EN)
-#define ENZ (DBZ * STRETCHZ * EN)
+#define ENX (DBX * (int)STRETCHX * EN)
+#define ENY (DBY * (int)STRETCHY * EN)
+#define ENZ (DBZ * (int)STRETCHZ * EN)
 
 extern MyFloat Ewd_fcorrx[ENX + 1][ENY + 1][ENZ + 1];
 extern MyFloat Ewd_fcorry[ENX + 1][ENY + 1][ENZ + 1];
