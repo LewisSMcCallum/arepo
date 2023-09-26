@@ -46,7 +46,7 @@ gamma = 5./3.  ## note: this has to be consistent with the parameter settings fo
 DeltaMaxAllowed = 0.25
 
 """ loop over all output files """
-i_file = 0
+i_file = 6
 while True:
     """ try to read in snapshot """
     directory = simulation_directory+"/snaps/"
@@ -89,13 +89,19 @@ while True:
 
         
         Nplot = 256
+        Nplotz = 4*Nplot
         from scipy import spatial # needed for KDTree that we use for nearest neighbour search and Voronoi mesh
         Edges1d = np.linspace(0, Boxsize, Nplot+1, endpoint=True, dtype=FloatType)
+        Edgesz = np.linspace(1,5,Nplotz+1, endpoint = True, dtype = FloatType)
         Grid1d = 0.5 * (Edges1d[1:] + Edges1d[:-1])
+        Grid1dz = 0.5* (Edgesz[1:] + Edgesz[:-1])
         xx, yy = np.meshgrid(Grid1d, Grid1d)
+        xx2,zz2 = np.meshgrid(Grid1d,Grid1dz)
         Grid2D = np.array( [xx.reshape(Nplot**2), yy.reshape(Nplot**2), np.ones(Nplot**2)*0.5*6*Boxsize] ).T
         dist, cells = spatial.KDTree( VoronoiPos[:] ).query( Grid2D, k=1 )
-        
+
+        Grid2D2 = np.array( [xx2.reshape(Nplot*Nplotz), np.ones(Nplot*Nplotz)*0.5*Boxsize, zz2.reshape(Nplot*Nplotz)] ).T
+        dist2, cells2 = spatial.KDTree( VoronoiPos[:] ).query( Grid2D2, k=1 )
 
       
         ax  = plt.axes( [0.65,0.70,0.20,0.25] )
@@ -104,6 +110,13 @@ while True:
         plt.colorbar( pc, cax=cax )
         ax.set_xlim( 0., Boxsize)
         ax.set_ylim( 0., Boxsize)
+
+        ax  = plt.axes( [0.1,0.1,0.2,0.8] )
+        pc  = ax.pcolormesh( Edges1d, Edgesz, Density[cells2].reshape((Nplotz,Nplot)), rasterized=True, cmap=plt.get_cmap('viridis') )
+        cax = plt.axes( [0.3,0.1,0.02,0.8] )
+        plt.colorbar( pc, cax=cax )
+        #ax.set_xlim( 0., Boxsize)
+        #ax.set_ylim( 0., 4*Boxsize)
        
         ax  = plt.axes( [0.65,0.38,0.20,0.25] )
         pc  = ax.pcolormesh( Edges1d, Edges1d, vRad[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('plasma'))
@@ -111,6 +124,13 @@ while True:
         plt.colorbar( pc, cax=cax )
         ax.set_xlim( 0., Boxsize)
         ax.set_ylim( 0., Boxsize)
+
+        #ax  = plt.axes( [0.1,0.38,0.2,0.25] )
+        #pc  = ax.pcolormesh( Edgesz, Edges1d, vRad[cells2].reshape((Nplot,Nplotz)), rasterized=True, cmap=plt.get_cmap('viridis') )
+        #cax = plt.axes( [0.3,0.38,0.02,0.25] )
+        #plt.colorbar( pc, cax=cax )
+        #ax.set_xlim( 0., Boxsize)
+        #ax.set_ylim( 0., 4*Boxsize)
         
         
         ax  = plt.axes( [0.65,0.07,0.20,0.25] )
@@ -119,6 +139,13 @@ while True:
         plt.colorbar( pc, cax=cax )
         ax.set_xlim( 0., Boxsize)
         ax.set_ylim( 0., Boxsize)
+
+       # ax  = plt.axes( [0.1,0.07,0.2,0.25] )
+       # pc  = ax.pcolormesh( Edgesz, Edges1d, Uthermal[cells2].reshape((Nplot,Nplotz)), rasterized=True, cmap=plt.get_cmap('viridis') )
+       # cax = plt.axes( [0.3,0.07,0.02,0.25] )
+       # plt.colorbar( pc, cax=cax )
+       # ax.set_xlim( 0., Boxsize)
+       # ax.set_ylim( 0., 4*Boxsize)
         
         if not os.path.exists( simulation_directory+"/plots" ):
           os.mkdir( simulation_directory+"/plots" )
