@@ -5,7 +5,7 @@
 
 EXEC   = Arepo
 LIBRARY = arepo
-CONFIG   = Config.sh
+CONFIG   = ./tallbox/Config.sh
 BUILD_DIR = build
 SRC_DIR = src
 
@@ -37,19 +37,18 @@ CONFIGVARS := $(shell cat $(BUILD_DIR)/arepoconfig.h)
 RESULT     := $(shell SRC_DIR=$(SRC_DIR) BUILD_DIR=$(BUILD_DIR) ./git_version.sh)
 
 # Default
-MPICH_INCL =
-MPICH_LIB  = -lmpich
+MPICH_INCL = -I/gpfs1/apps/software/intel17/mvapich/include/
+MPICH_LIB  = -L/gpfs1/apps/software/intel17/mvapich/lib/ -lmpich
 GMP_LIB    = -lgmp
 GSL_LIB    = -lgsl -lgslcblas
 MATH_LIB   = -lm -lstdc++
 HWLOC_LIB  = -lhwloc
 
-
 # e.g. Mac OS using MacPorts modules for openmpi, fftw, gsl, hdf5 and hwloc
 ifeq ($(SYSTYPE),"Darwin")
 # compiler and its optimization options
 CC        =  mpicc   # sets the C-compiler
-OPTIMIZE  =  -std=c11 -ggdb -O3 -Wall -Wno-format-security -Wno-unknown-pragmas -Wno-unused-function
+OPTIMIZE  =  -std=c+11 -ggdb -O3 -Wall -Wno-format-security -Wno-unknown-pragmas -Wno-unused-function
 
 # overwrite default:
 MPICH_LIB = -lmpi
@@ -69,20 +68,25 @@ endif
 # Ubuntu Linux
 ifeq ($(SYSTYPE),"Ubuntu")
 # compiler and its optimization options
+CC = /gpfs1/apps/software/devts8/bin/mpicc
 OPTIMIZE  =  -std=c11 -ggdb -O3 -Wall -Wno-format-security -Wno-unknown-pragmas -Wno-unused-function
-
 # overwrite default:
-MPICH_INCL= -I/usr/lib/x86_64-linux-gnu/openmpi/include/
-MPICH_LIB = -L/usr/lib/x86_64-linux-gnu/openmpi/lib/ -lmpi
-GSL_INCL  =
-GSL_LIB   = -lgsl -lgslcblas
+#MPICH_INCL= -I/usr/lib/x86_64-linux-gnu/openmpi/include/
+MPICH_INCL = -I/gpfs1/apps/software/devts8/mvapich2/include
+#MPICH_LIB = -L/usr/lib/x86_64-linux-gnu/openmpi/lib/ -lmpi
+MPICH_LIB = -L/gpfs1/apps/software/devts8/mvapich2/lib -lmpi
+
+GSL_INCL  = -I/gpfs1/apps/conda/lm261/conda/include/
+GSL_LIB   = -L/gpfs1/apps/conda/lm261/conda/lib/ -lgsl -lgslcblas
 HWLOC_LIB = -lhwloc
 
 # libraries that are included on demand, depending on Config.sh options
 FFTW_INCL =
 FFTW_LIBS =
-HDF5_INCL = -I/usr/include/hdf5/serial/ -DH5_USE_16_API
-HDF5_LIB  = -L/usr/lib/x86_64-linux-gnu/hdf5/serial/ -lhdf5 -lz
+#HDF5_INCL = -I/usr/include/hdf5/serial/ -DH5_USE_16_API
+HDF5_INCL = -I/gpfs1/apps/conda/lm261/conda/include -DH5_USE_16_API
+#HDF5_LIB  = -L/usr/lib/x86_64-linux-gnu/hdf5/serial/ -lhdf5 -lz
+HDF5_LIB   = -L/gpfs1/apps/conda/lm261/conda/lib -lhdf5 -lz
 HWLOC_INCL=
 endif
 # end of Ubuntu
