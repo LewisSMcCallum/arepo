@@ -10,8 +10,9 @@ import numpy as np    ## load numpy
 import h5py    ## load h5py; needed to read snapshots
 import os      # file specific calls
 import matplotlib.pyplot as plt    # needs to be active for plotting!
+from matplotlib.colors import LogNorm
 
-
+code_units_dens = 2.468e7
 makeplots = True
 if len(sys.argv) > 2:
   if sys.argv[2] == "True":
@@ -62,7 +63,7 @@ while True:
     ## simulation data
     Pos = np.array(data["PartType0"]["Coordinates"], dtype = FloatType) # CenterOfMass
     VoronoiPos = np.array(data["PartType0"]["Coordinates"], dtype = FloatType)
-    Density = np.array(data["PartType0"]["Density"], dtype = FloatType)
+    Density = np.array(data["PartType0"]["Density"], dtype = FloatType)/code_units_dens
     Mass = np.array(data["PartType0"]["Masses"], dtype = FloatType)
     Velocity = np.array(data["PartType0"]["Velocities"], dtype = FloatType)
     Uthermal = np.array(data["PartType0"]["InternalEnergy"], dtype = FloatType)
@@ -105,21 +106,21 @@ while True:
 
       
         ax  = plt.axes( [0.65,0.70,0.20,0.25] )
-        pc  = ax.pcolormesh( Edges1d, Edges1d, Density[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('viridis') )
+        pc  = ax.pcolormesh( Edges1d, Edges1d, Density[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('viridis'),norm = LogNorm(1e-4,1e3) )
         cax = plt.axes( [0.88,0.70,0.02,0.25] )
         plt.colorbar( pc, cax=cax )
         ax.set_xlim( 0., Boxsize)
         ax.set_ylim( 0., Boxsize)
 
         ax  = plt.axes( [0.1,0.1,0.2,0.8] )
-        pc  = ax.pcolormesh( Edges1d, Edgesz, Density[cells2].reshape((Nplotz,Nplot)), rasterized=True, cmap=plt.get_cmap('viridis') )
+        pc  = ax.pcolormesh( Edges1d, Edgesz, Density[cells2].reshape((Nplotz,Nplot)), rasterized=True, cmap=plt.get_cmap('viridis'),norm = LogNorm(1e-4,1e3) )
         cax = plt.axes( [0.3,0.1,0.02,0.8] )
         plt.colorbar( pc, cax=cax )
         #ax.set_xlim( 0., Boxsize)
         #ax.set_ylim( 0., 4*Boxsize)
        
         ax  = plt.axes( [0.65,0.38,0.20,0.25] )
-        pc  = ax.pcolormesh( Edges1d, Edges1d, vRad[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('plasma'))
+        pc  = ax.pcolormesh( Edges1d, Edges1d, vRad[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('plasma'),norm = LogNorm(1e-4,1e3))
         cax = plt.axes( [0.88,0.38,0.02,0.25] )
         plt.colorbar( pc, cax=cax )
         ax.set_xlim( 0., Boxsize)
@@ -134,7 +135,7 @@ while True:
         
         
         ax  = plt.axes( [0.65,0.07,0.20,0.25] )
-        pc  = ax.pcolormesh( Edges1d, Edges1d, Uthermal[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('magma') )
+        pc  = ax.pcolormesh( Edges1d, Edges1d, Uthermal[cells].reshape((Nplot,Nplot)), rasterized=True, cmap=plt.get_cmap('magma'),norm = LogNorm(1e-4,1e3) )
         cax = plt.axes( [0.88,0.07,0.02,0.25] )
         plt.colorbar( pc, cax=cax )
         ax.set_xlim( 0., Boxsize)
