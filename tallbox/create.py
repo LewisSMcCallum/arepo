@@ -58,8 +58,8 @@ def dl(z):
 
 """ set up hydrodynamical quantitites """
 ## mass insetad of density
-Density = np.zeros(NumberOfCells, dtype=FloatType)
-Density = code_units_dens*dl(zPosFromCenter)
+Masses = np.zeros(NumberOfCells, dtype=FloatType)
+Masses = code_units_dens*dl(zPosFromCenter)*dx*dx*dx
 ## velocity
 Velocity = np.zeros([NumberOfCells,3], dtype=FloatType)
 #Velocity[:,0] = velocity_radial_0 * xPosFromCenter / Radius
@@ -102,7 +102,7 @@ else:
 ## copy datasets
 part0.create_dataset("ParticleIDs", data=np.arange(1, NumberOfCells+1) )
 part0.create_dataset("Coordinates", data=Pos)
-part0.create_dataset("Density", data=Density)
+part0.create_dataset("Masses", data=Masses)
 part0.create_dataset("Velocities", data=Velocity)
 #part0.create_dataset("InternalEnergy", data=Uthermal)
 
