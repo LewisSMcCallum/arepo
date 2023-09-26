@@ -49,7 +49,7 @@ Pos[:,2] = zz.reshape(NumberOfCells)
 zPosFromCenter = (Pos[:,2] - 0.5 * 6*Boxsize)
 #yPosFromCenter = (Pos[:,1] - 0.5 * Boxsize)
 
-def dl(z_kpc):
+def dl(z):
     term1 = 0.47*np.exp(-0.5*(z/0.09)**2)
     term2 = 0.13*np.exp(-0.5*(z/0.225)**2)
     term3 = 0.077*np.exp(-1*(np.abs(z)/0.403))
